@@ -1,5 +1,11 @@
 import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -11,16 +17,25 @@ import {
 } from "@mui/material";
 import React from "react";
 import { IUser } from "../../pages";
+import { UsersTableSkeleton } from "./UsersTableSkeleton";
 
 interface IUsersTableProps {
   users: IUser[];
+  sortByName?: string;
+  loading: boolean;
+  handleSortChange: (event: SelectChangeEvent) => void;
 }
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "light" ? "#E7EBF0" : "#1A2027",
 }));
 
-export const UsersTable = ({ users }: IUsersTableProps) => {
+export const UsersTable = ({
+  users,
+  sortByName,
+  handleSortChange,
+  loading,
+}: IUsersTableProps) => {
   return (
     <TableContainer
       component={StyledPaper}
@@ -34,6 +49,23 @@ export const UsersTable = ({ users }: IUsersTableProps) => {
       <Table>
         <TableHead>
           <TableRow>
+            <TableCell align="left" colSpan={3}>
+              <Box maxWidth={150}>
+                <FormControl fullWidth>
+                  <InputLabel>Sort By Name</InputLabel>
+                  <Select
+                    value={sortByName}
+                    onChange={handleSortChange}
+                    label="Sort By Name"
+                  >
+                    <MenuItem value="ASC">Asc</MenuItem>
+                    <MenuItem value="DESC">Desc</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+            </TableCell>
+          </TableRow>
+          <TableRow>
             <TableCell>
               <Typography variant="h5">Name</Typography>
             </TableCell>
@@ -46,31 +78,35 @@ export const UsersTable = ({ users }: IUsersTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user) => (
-            <TableRow
-              key={user.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell>
-                <Typography variant="body2">{user.name}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography variant="body2">{user.email}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography
-                  variant="body2"
-                  // By request from the task, this cell needs to stay on width of 50px
-                  sx={{
-                    width: { xs: 50, md: "unset" },
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                    overflow: "hidden",
-                  }}
-                >{`${user.street} ${user.suite} ${user.city} ${user.zipcode}`}</Typography>
-              </TableCell>
-            </TableRow>
-          ))}
+          {loading ? (
+            <UsersTableSkeleton />
+          ) : (
+            users.map((user) => (
+              <TableRow
+                key={user.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell>
+                  <Typography variant="body2">{user.name}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="body2">{user.email}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography
+                    variant="body2"
+                    // By request from the task, this cell needs to stay on width of 50px
+                    sx={{
+                      width: { xs: 50, md: "unset" },
+                      whiteSpace: "nowrap",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                    }}
+                  >{`${user.street} ${user.suite} ${user.city} ${user.zipcode}`}</Typography>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>
