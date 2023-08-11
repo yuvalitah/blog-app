@@ -13,7 +13,7 @@ import { ApiModule } from './api/api.module';
       database: 'blog',
       username: 'root',
       password: 'mysql123',
-      entities: ['dist/**/*.entity.{ts,js}'],
+      entities: [__dirname + '/../**/*.entity{.ts,.js}'],
       migrations: ['dist/migrations/*.{ts,js}'],
       migrationsTableName: 'typeorm_migrations',
       logger: 'simple-console',
