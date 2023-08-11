@@ -34,7 +34,7 @@ export class UserService {
 
   public async getUsers(
     page: string,
-    sort: 'asc' | 'desc',
+    sort: 'ASC' | 'DESC',
   ): Promise<{ users: User[]; totalUsers: number }> {
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
     const users: ApiUser[] = await response.json();
@@ -43,7 +43,7 @@ export class UserService {
 
     const currPage: number = parseInt(page) || 1;
     const [result, totalUsers] = await this.repository.findAndCount({
-      order: sort ? { name: sort } : { id: 'ASC' },
+      order: sort === 'ASC' || sort === 'DESC' ? { name: sort } : { id: 'ASC' },
       take: 4,
       skip: (currPage - 1) * 4,
     });

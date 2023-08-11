@@ -9,8 +9,8 @@ export class UserController {
 
   @Get()
   public getUsers(
-    @Query() query: { page: string; sort: 'asc' | 'desc' },
+    @Query() query: { page: string; sortByName: 'ASC' | 'DESC' },
   ): Promise<{ users: User[]; totalUsers: number }> {
-    return this.service.getUsers(query.page, query.sort);
+    return this.service.getUsers(query.page, query.sortByName);
   }
 }

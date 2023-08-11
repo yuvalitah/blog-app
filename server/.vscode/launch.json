@@ -5,14 +5,29 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch app",
             "type": "node",
             "request": "launch",
-            "name": "Debug Nest Framework",
-            "args": ["${workspaceFolder}/src/main.ts"],
-            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
-            "sourceMaps": true,
+            "args": [
+              "src/main.ts"
+            ],
+            "runtimeArgs": [
+              "-r",
+              "ts-node/register",
+              "-r",
+              "tsconfig-paths/register"
+            ],
             "cwd": "${workspaceRoot}",
-            "protocol": "inspector"
-        }
+            "protocol": "inspector",
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {
+              "NODE_ENV": "local",
+              "NODE_PORT": "3000"
+            },
+            "sourceMaps": true,
+            "console": "internalConsole",
+            "outputCapture": "std"
+          }
     ]
+    
 }
