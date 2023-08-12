@@ -33,8 +33,8 @@ export class PostService {
       where: {
         userId,
       },
-      take: 1,
-      skip: (currPage - 1) * 1,
+      take: 2,
+      skip: (currPage - 1) * 2,
     });
 
     return { posts, totalPosts };
