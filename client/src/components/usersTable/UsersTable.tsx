@@ -16,8 +16,18 @@ import {
   styled,
 } from "@mui/material";
 import React from "react";
-import { IUser } from "../../pages";
 import { UsersTableSkeleton } from "./UsersTableSkeleton";
+import { useNavigate } from "react-router-dom";
+
+export interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  street: string;
+  city: string;
+  suite: string;
+  zipcode: string;
+}
 
 interface IUsersTableProps {
   users: IUser[];
@@ -36,13 +46,13 @@ export const UsersTable = ({
   handleSortChange,
   loading,
 }: IUsersTableProps) => {
+  const navigate = useNavigate();
+
   return (
     <TableContainer
       component={StyledPaper}
       sx={{
         maxWidth: { xs: 300, sm: 500, md: 800, lg: 1200 },
-        margin: "auto",
-        marginTop: 5,
         border: "solid 1px gray",
       }}
     >
@@ -84,7 +94,13 @@ export const UsersTable = ({
             users.map((user) => (
               <TableRow
                 key={user.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ cursor: "pointer" }}
+                onClick={() =>
+                  navigate({
+                    pathname: "/posts",
+                    search: `?userId=${user.id}`,
+                  })
+                }
               >
                 <TableCell>
                   <Typography variant="body2">{user.name}</Typography>

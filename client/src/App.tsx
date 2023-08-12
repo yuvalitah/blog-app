@@ -1,5 +1,5 @@
 import React from "react";
-import { UsersPage } from "./pages";
+import { PostsPage, UsersPage } from "./pages";
 import { Header } from "./components/Header/Header";
 import { ThemeProvider } from "./context";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -12,6 +12,10 @@ const router = createBrowserRouter([
   {
     path: "/users",
     element: <UsersPage />,
+  },
+  {
+    path: "/posts",
+    element: <PostsPage />,
   },
 ]);
 

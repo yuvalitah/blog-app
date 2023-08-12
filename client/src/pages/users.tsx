@@ -1,23 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { UsersTable } from "../components/usersTable";
+import { IUser, UsersTable } from "../components/usersTable";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  Box,
-  Pagination,
-  PaginationItem,
-  SelectChangeEvent,
-} from "@mui/material";
-
-export interface IUser {
-  id: string;
-  name: string;
-  email: string;
-  street: string;
-  city: string;
-  suite: string;
-  zipcode: string;
-}
+import { Box, SelectChangeEvent } from "@mui/material";
+import { Pagination } from "../components/pagination";
 
 export const UsersPage = () => {
   const navigate = useNavigate();
@@ -61,26 +47,26 @@ export const UsersPage = () => {
   };
 
   return (
-    <>
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      marginTop={5}
+    >
       <UsersTable
         users={users}
         sortByName={sortByName}
         handleSortChange={handleSortChange}
         loading={loading}
       />
-      <Box display="flex" justifyContent="center" marginTop={5}>
+      <Box mt={5}>
         <Pagination
           page={page}
-          count={Math.ceil(totalUsers / 4)}
-          renderItem={(item) => (
-            <PaginationItem
-              component={Link}
-              to={`/users?page=${item.page}&sortByName=${sortByName}`}
-              {...item}
-            />
-          )}
+          perPage={4}
+          totalItems={totalUsers}
+          linkTo={`/users?sortByName=${sortByName}`}
         />
       </Box>
-    </>
+    </Box>
   );
 };
