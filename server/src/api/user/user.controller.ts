@@ -1,4 +1,11 @@
-import { Controller, Get, Inject, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Inject,
+  Query,
+  Response,
+} from '@nestjs/common';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -8,9 +15,11 @@ export class UserController {
   private readonly service: UserService;
 
   @Get()
-  public getUsers(
+  public async getUsers(
     @Query() query: { page: string; sortByName: 'ASC' | 'DESC' },
+    @Response() res,
   ): Promise<{ users: User[]; totalUsers: number }> {
-    return this.service.getUsers(query.page, query.sortByName);
+    const result = await this.service.getUsers(query.page, query.sortByName);
+    return res.status(HttpStatus.OK).json(result);
   }
 }

@@ -20,7 +20,7 @@ export class UserService {
   @InjectRepository(User)
   private readonly repository: Repository<User>;
 
-  private async saveUser(user: ApiUser): Promise<void> {
+  private formatUser(user: ApiUser): User {
     const newUser = new User();
     newUser.id = user.id;
     newUser.email = user.email;
@@ -29,7 +29,18 @@ export class UserService {
     newUser.street = user.address.street;
     newUser.suite = user.address.suite;
     newUser.zipcode = user.address.zipcode;
-    await this.repository.save(newUser);
+    return newUser;
+  }
+
+  private async insertUsers(users: User[]): Promise<void> {
+    const existingUsers = await this.repository.find();
+    const newUsers = users.filter(
+      (user) =>
+        !existingUsers.map((existingUser) => existingUser.id).includes(user.id),
+    );
+
+    const newUsersEntites = this.repository.create(newUsers);
+    await this.repository.insert(newUsersEntites);
   }
 
   public async getUsers(
@@ -39,7 +50,8 @@ export class UserService {
     const response = await fetch('https://jsonplaceholder.typicode.com/users');
     const users: ApiUser[] = await response.json();
 
-    users.forEach((user) => this.saveUser(user));
+    const newUsers = users.map((user) => this.formatUser(user));
+    this.insertUsers(newUsers);
 
     const currPage: number = parseInt(page) || 1;
     const [result, totalUsers] = await this.repository.findAndCount({
