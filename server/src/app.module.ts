@@ -17,6 +17,7 @@ import { ApiModule } from './api/api.module';
       migrations: ['dist/migrations/*.{ts,js}'],
       migrationsTableName: 'typeorm_migrations',
       logger: 'simple-console',
+      synchronize: true,
     }),
     ApiModule,
   ],
