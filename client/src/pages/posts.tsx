@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { IPost, Post, Pagination } from "../components";
 import { Box, Paper, styled } from "@mui/material";
+import { PostSkeleton } from "../components/post/PostSkeleton";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   display: "flex",
@@ -43,14 +44,18 @@ export const PostsPage = () => {
   return (
     <StyledPaper>
       <Box display="flex" flexDirection="column">
-        {posts.map((post) => (
-          <Post
-            key={post.id}
-            post={post}
-            fetchPostsFromApi={fetchPostsFromApi}
-          />
-        ))}
-        <Box display="flex" justifyContent="center" mt={5}>
+        {loading ? (
+          <PostSkeleton />
+        ) : (
+          posts.map((post) => (
+            <Post
+              key={post.id}
+              post={post}
+              fetchPostsFromApi={fetchPostsFromApi}
+            />
+          ))
+        )}
+        <Box display="flex" justifyContent="center" mt={5} mb={2}>
           <Pagination
             page={page}
             totalItems={totalPosts}
