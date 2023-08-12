@@ -35,7 +35,7 @@ export const Post = ({ post, fetchPostsFromApi }: IPostProps) => {
   };
 
   return (
-    <Card sx={{ mt: 3, mx: 5 }}>
+    <Card sx={{ mt: 3, mx: 5, maxWidth: 1500 }}>
       <CardHeader
         title={
           <Box display="flex" sx={{ mb: 1 }}>
@@ -51,7 +51,9 @@ export const Post = ({ post, fetchPostsFromApi }: IPostProps) => {
         }
       />
       <CardContent>
-        <Typography variant="body2">{post.body}</Typography>
+        <Typography variant="body2" textAlign="center">
+          {post.body}
+        </Typography>
       </CardContent>
     </Card>
   );
