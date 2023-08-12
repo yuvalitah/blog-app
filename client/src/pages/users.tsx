@@ -1,9 +1,16 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { IUser, UsersTable } from "../components/usersTable";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Box, SelectChangeEvent } from "@mui/material";
-import { Pagination } from "../components/pagination";
+import { IUser, UsersTable, Pagination } from "../components";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Box, Paper, SelectChangeEvent, styled } from "@mui/material";
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  backgroundColor: theme.palette.mode === "light" ? "#E7EBF0" : "#1A2027",
+  flex: 1,
+}));
 
 export const UsersPage = () => {
   const navigate = useNavigate();
@@ -47,26 +54,28 @@ export const UsersPage = () => {
   };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      marginTop={5}
-    >
-      <UsersTable
-        users={users}
-        sortByName={sortByName}
-        handleSortChange={handleSortChange}
-        loading={loading}
-      />
-      <Box mt={5}>
-        <Pagination
-          page={page}
-          perPage={4}
-          totalItems={totalUsers}
-          linkTo={`/users?sortByName=${sortByName}`}
+    <StyledPaper>
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        marginTop={5}
+      >
+        <UsersTable
+          users={users}
+          sortByName={sortByName}
+          handleSortChange={handleSortChange}
+          loading={loading}
         />
+        <Box mt={5}>
+          <Pagination
+            page={page}
+            perPage={4}
+            totalItems={totalUsers}
+            linkTo={`/users?sortByName=${sortByName}`}
+          />
+        </Box>
       </Box>
-    </Box>
+    </StyledPaper>
   );
 };

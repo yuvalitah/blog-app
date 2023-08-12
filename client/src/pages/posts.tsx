@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { IPost, Post } from "../components/Post";
-import { Box, PaginationItem, Paper, styled } from "@mui/material";
-import { Pagination } from "../components/pagination";
+import { useLocation } from "react-router-dom";
+import { IPost, Post, Pagination } from "../components";
+import { Box, Paper, styled } from "@mui/material";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   display: "flex",

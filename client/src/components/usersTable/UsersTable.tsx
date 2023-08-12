@@ -3,7 +3,6 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
   SelectChangeEvent,
   Table,
@@ -13,7 +12,6 @@ import {
   TableHead,
   TableRow,
   Typography,
-  styled,
 } from "@mui/material";
 import React from "react";
 import { UsersTableSkeleton } from "./UsersTableSkeleton";
@@ -36,10 +34,6 @@ interface IUsersTableProps {
   handleSortChange: (event: SelectChangeEvent) => void;
 }
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "light" ? "#E7EBF0" : "#1A2027",
-}));
-
 export const UsersTable = ({
   users,
   sortByName,
@@ -50,7 +44,6 @@ export const UsersTable = ({
 
   return (
     <TableContainer
-      component={StyledPaper}
       sx={{
         maxWidth: { xs: 300, sm: 500, md: 800, lg: 1200 },
         border: "solid 1px gray",

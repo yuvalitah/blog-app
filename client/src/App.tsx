@@ -1,6 +1,6 @@
 import React from "react";
 import { PostsPage, UsersPage } from "./pages";
-import { Header } from "./components/Header/Header";
+import { Header } from "./components";
 import { ThemeProvider } from "./context";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
