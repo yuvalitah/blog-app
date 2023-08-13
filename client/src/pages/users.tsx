@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { IUser, UsersTable, Pagination } from "../components";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Paper, SelectChangeEvent, styled } from "@mui/material";
+import { useSnackbar } from "../hooks";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   display: "flex",
@@ -25,23 +26,33 @@ export const UsersPage = () => {
     query.get("sortByName") || ""
   );
 
+  const { openSnackbar } = useSnackbar();
+
   useEffect(() => {
     const fetchUsersFromApi = async () => {
       try {
         setIsLoading(true);
-        const { data } = await axios.get("/users", {
+        const { data, status } = await axios.get("/users", {
           params: { page, sortByName },
         });
         setUsers(data.users);
         setTotalUsers(data.totalUsers);
+
+        if (status === 200) {
+          openSnackbar("Users has been loaded successfully!", "success");
+        }
+
         setIsLoading(false);
       } catch (e) {
-        console.log(e);
+        openSnackbar(
+          "There was a problem collecting the users data. Please try again",
+          "error"
+        );
       }
     };
 
     fetchUsersFromApi();
-  }, [page, sortByName]);
+  }, [page, sortByName, openSnackbar]);
 
   const handleSortChange = (event: SelectChangeEvent) => {
     setSortByName(event.target.value);

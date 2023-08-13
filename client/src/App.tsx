@@ -1,7 +1,7 @@
 import React from "react";
 import { PostsPage, UsersPage } from "./pages";
 import { Header } from "./components";
-import { ThemeProvider } from "./context";
+import { ThemeProvider, SnackbarProvider } from "./context";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -22,8 +22,10 @@ const router = createBrowserRouter([
 function App() {
   return (
     <ThemeProvider>
-      <Header />
-      <RouterProvider router={router} />
+      <SnackbarProvider>
+        <Header />
+        <RouterProvider router={router} />
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

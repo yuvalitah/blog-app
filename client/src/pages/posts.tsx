@@ -1,9 +1,9 @@
 import { axiosInstance as axios } from "../axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { IPost, Post, Pagination } from "../components";
+import { IPost, Post, Pagination, PostSkeleton } from "../components";
 import { Box, Paper, TextField, Typography, styled } from "@mui/material";
-import { PostSkeleton } from "../components/post/PostSkeleton";
+import { useSnackbar } from "../hooks";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   display: "flex",
@@ -25,11 +25,12 @@ export const PostsPage = () => {
   const [loading, setIsLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string>(searchQuery || "");
   const [debouncedSearch, setDebouncedSearch] = useState<string>(search);
+  const { openSnackbar } = useSnackbar();
 
   const fetchPostsFromApi = useCallback(async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(`/posts`, {
+      const { data, status } = await axios.get(`/posts`, {
         params: {
           userId,
           page,
@@ -38,11 +39,19 @@ export const PostsPage = () => {
       });
       setPosts(data.posts);
       setTotalPosts(data.totalPosts);
+
+      if (status === 200) {
+        openSnackbar("Posts has been loaded successfully!", "success");
+      }
+
       setIsLoading(false);
     } catch (e) {
-      console.log(e);
+      openSnackbar(
+        "There was a problem collecting the user posts data. Please try again",
+        "error"
+      );
     }
-  }, [userId, page, debouncedSearch]);
+  }, [userId, page, debouncedSearch, openSnackbar]);
 
   useEffect(() => {
     fetchPostsFromApi();
