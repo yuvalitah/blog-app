@@ -9,6 +9,7 @@ import {
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
+import { useSnackbar } from "../../hooks";
 
 export interface IPost {
   id: number;
@@ -23,14 +24,23 @@ interface IPostProps {
 }
 
 export const Post = ({ post, fetchPostsFromApi }: IPostProps) => {
+  const { openSnackbar } = useSnackbar();
+
   const deletePost = async () => {
     try {
-      const { data } = await axios.delete(
-        `http://localhost:3000/posts/${post.id}`
-      );
+      const { status } = await axios.delete(`/posts`, {
+        params: { postId: post.id },
+      });
       fetchPostsFromApi();
+
+      if (status === 200) {
+        openSnackbar("Post has been deleted successfully!", "success");
+      }
     } catch (e) {
-      console.log(e);
+      openSnackbar(
+        "There was a problem deleting the Post. Please try again",
+        "error"
+      );
     }
   };
 
