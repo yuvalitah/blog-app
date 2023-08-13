@@ -56,7 +56,7 @@ docker run -d --name mySql-cont -e MYSQL_ROOT_PASSWORD=mysql123 -p 3307:3306 mys
 To create the relevant database run:
 ```
 docker exec -it mySql-cont bash
-mysql -uroot -p (enter you password afterwards)
+mysql -uroot -p (enter your password afterwards)
 CREATE DATABASE blog;
 ```
 
