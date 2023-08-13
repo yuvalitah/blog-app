@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance as axios } from "../axios";
 import React, { useState, useEffect } from "react";
 import { IUser, UsersTable, Pagination } from "../components";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -29,11 +29,9 @@ export const UsersPage = () => {
     const fetchUsersFromApi = async () => {
       try {
         setIsLoading(true);
-        const { data } = await axios.get(
-          `http://localhost:3000/users?page=${page}${
-            sortByName && `&sortByName=${sortByName}`
-          }`
-        );
+        const { data } = await axios.get("/users", {
+          params: { page, sortByName },
+        });
         setUsers(data.users);
         setTotalUsers(data.totalUsers);
         setIsLoading(false);

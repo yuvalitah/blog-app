@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance as axios } from "../axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { IPost, Post, Pagination } from "../components";
@@ -29,9 +29,13 @@ export const PostsPage = () => {
   const fetchPostsFromApi = useCallback(async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(
-        `http://localhost:3000/posts?userId=${userId}&page=${page}&search=${debouncedSearch}`
-      );
+      const { data } = await axios.get(`/posts`, {
+        params: {
+          userId,
+          page,
+          search: debouncedSearch,
+        },
+      });
       setPosts(data.posts);
       setTotalPosts(data.totalPosts);
       setIsLoading(false);
