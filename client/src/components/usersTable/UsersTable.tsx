@@ -1,21 +1,7 @@
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { SelectChangeEvent, Table, TableContainer } from "@mui/material";
 import React from "react";
-import { UsersTableSkeleton } from "./UsersTableSkeleton";
-import { useNavigate } from "react-router-dom";
+import { UsersTableHead } from "./UsersTableHead";
+import { UsersTableBody } from "./UsersTableBody";
 
 export interface IUser {
   id: string;
@@ -40,8 +26,6 @@ export const UsersTable = ({
   handleSortChange,
   loading,
 }: IUsersTableProps) => {
-  const navigate = useNavigate();
-
   return (
     <TableContainer
       sx={{
@@ -50,73 +34,11 @@ export const UsersTable = ({
       }}
     >
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell align="left" colSpan={3}>
-              <Box maxWidth={150}>
-                <FormControl fullWidth>
-                  <InputLabel>Sort By Name</InputLabel>
-                  <Select
-                    value={sortByName}
-                    onChange={handleSortChange}
-                    label="Sort By Name"
-                  >
-                    <MenuItem value="ASC">Asc</MenuItem>
-                    <MenuItem value="DESC">Desc</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell>
-              <Typography variant="h5">Name</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography variant="h5">Email</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography variant="h5">Address</Typography>
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {loading ? (
-            <UsersTableSkeleton />
-          ) : (
-            users.map((user) => (
-              <TableRow
-                key={user.id}
-                sx={{ cursor: "pointer" }}
-                onClick={() =>
-                  navigate({
-                    pathname: "/posts",
-                    search: `?userId=${user.id}`,
-                  })
-                }
-              >
-                <TableCell>
-                  <Typography variant="body2">{user.name}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="body2">{user.email}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    variant="body2"
-                    // By request from the task, this cell needs to stay on width of 50px
-                    sx={{
-                      width: { xs: 50, md: "unset" },
-                      whiteSpace: "nowrap",
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                    }}
-                  >{`${user.street} ${user.suite} ${user.city} ${user.zipcode}`}</Typography>
-                </TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
+        <UsersTableHead
+          sortByName={sortByName}
+          handleSortChange={handleSortChange}
+        />
+        <UsersTableBody users={users} loading={loading} />
       </Table>
     </TableContainer>
   );

@@ -1,8 +1,14 @@
 import { axiosInstance as axios } from "../axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { IPost, Post, Pagination, PostSkeleton } from "../components";
-import { Box, Paper, TextField, Typography, styled } from "@mui/material";
+import {
+  IPost,
+  Post,
+  Pagination,
+  PostSkeleton,
+  PostSearch,
+} from "../components";
+import { Box, Paper, Typography, styled } from "@mui/material";
 import { useSnackbar } from "../hooks";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -67,9 +73,7 @@ export const PostsPage = () => {
   return (
     <StyledPaper>
       <Box display="flex" flexDirection="column" mt={3}>
-        <TextField
-          label="Search Post"
-          sx={{ width: "40%", minWidth: 200, alignSelf: "center" }}
+        <PostSearch
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />

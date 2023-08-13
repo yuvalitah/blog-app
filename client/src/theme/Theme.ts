@@ -1,20 +1,6 @@
 import { createTheme as createMuiTheme, PaletteMode } from "@mui/material";
 
 const sharedOverrides = {
-  // MuiAppBar: {
-  //   styleOverrides: {
-  //     root: {
-  //       height: "10%",
-  //     },
-  //   },
-  // },
-  // MuiPaper: {
-  //   styleOverrides: {
-  //     root: {
-  //       height: "90%",
-  //     },
-  //   },
-  // },
   MuiDrawer: {
     styleOverrides: {
       paper: {
