@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import axios from "axios";
+import { axiosInstance as axios } from "../../axios";
 import { useSnackbar } from "../../hooks";
 
 export interface IPost {
@@ -28,9 +28,7 @@ export const Post = ({ post, fetchPostsFromApi }: IPostProps) => {
 
   const deletePost = async () => {
     try {
-      const { status } = await axios.delete(`/posts`, {
-        params: { postId: post.id },
-      });
+      const { status } = await axios.delete(`/posts/${post.id}`);
       fetchPostsFromApi();
 
       if (status === 200) {
