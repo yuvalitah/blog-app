@@ -18,12 +18,13 @@ export class PostController {
 
   @Get()
   public async getPosts(
-    @Query() query: { userId: string; page: string },
+    @Query() query: { userId: string; page: string; search?: string },
     @Response() res,
   ): Promise<{ posts: Post[]; totalPosts: number }> {
     const result = await this.service.getUserPosts(
       parseInt(query.userId),
       query.page,
+      query.search,
     );
     return res.status(HttpStatus.OK).json(result);
   }
