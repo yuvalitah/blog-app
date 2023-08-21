@@ -60,7 +60,7 @@ mysql -uroot -p (enter your password afterwards)
 CREATE DATABASE blog;
 ```
 
-**Note - You may change the container and MySql settings such as the name or password, but if you do please make sure you enter the right settings on  ```server\src\app.module.ts``` file**
+**Note - You may change the container and MySql settings such as the name or password, but if you do please make sure you enter the right settings on  ```server\src\common\envs\envs``` file**
 
 After you have the relevant container running and working on your machine, you can start the server using npm:
 ```
